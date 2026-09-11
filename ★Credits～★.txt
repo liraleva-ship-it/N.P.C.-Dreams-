@@ -1,0 +1,189 @@
+この度は　N.P.C.Dreams　をダウンロードして頂き、ありがとうございます。
+
+■制作　サークル　まどろＭｅ
+
+
+■動作環境　　Windows XP ～ 10
+
+■プレイ前のご注意
+
+　○本作品は、株式会社エンターブレイン様の
+　　RPGツクール VX ACE にて制作しております。
+　　この作品をプレイするためには「RPGツクールVXACE RTP」が必要です。
+　　お持ちで無い方は、お手数ですがインストールをお願いいたします。
+　　http://tkool.jp/support/download/rpgvxace/rtp 
+　○この作品は成人向け作品です。18歳未満の方はプレイする事ができません。
+　○この作品の物語はフィクションです。実際の人物、団体とは一切関係がありません。
+　○この作品を権利者に無断で複製、転載、配布する事を禁じます。 
+　○この作品に使用されている素材を配布・複製する行為、他のプロジェクトに流用する行為を禁じます。
+
+
+  体験版等のセーブデータを引き継ぐ際は、
+　フォルダ内の「Save01」「Save02」....といったファイルを引き継ぎ先のフォルダに移してください。
+
+
+フォルダ内にあるGame.exeを起動することでゲームが始まります。
+
+
+
+
+　○バグを発見した場合、こちらのコメント欄にてご報告ください。
+
+		https://ci-en.dlsite.com/creator/6634/article/602789
+
+　（報告には、Ci-enのユーザー登録が必要になります。申し訳ありませんが、登録をお願いします。）
+
+
+
+
+■素材使用（敬称略）
+
+
+
+○グラフィック等
+
+closet
+エトリエ
+エンシェントダンジョン・タイルセット素材集 (C)2015 Degica.com
+邪悪の城・タイルセット (C)2015 Degica.com
+カジノ・タイルセット素材集 (C)2015 Degica.com
+王国興亡記
+SunDrivePlus
+そらまにぶろぐ
+ここどこ
+FSMマップ素材集 ～秋の森と農村セット～ (C)2017, 2020 REFMAP
+FSMマップ素材集 ～森と洞窟セット～ (C)2017 REFMAP.
+FSMマップ素材集 ～旅立ちの町セット～ (C)2017 REFMAP.
+化け猫屋
+臼井の会
+アンデッドとか好きだから―――ッ！！！
+星潟
+JUNKIE Junk Shop
+BB ENTERTAINMENT
+Shilk
+改々工房
+ニルバーナ展覧会機関
+白黒洋菓子店
+サボテンの花言葉
+ぴぽや
+シアンのゆりかご
+けつしファクトリー
+HI-TIME
+ワイルドウェスト・タイルセット素材集 (C)2014 Degica.com
+尾羽の小屋
+RPGツクールXP RTP
+RPGツクールMZ
+folce-zero
+DimVais
+タケゾウ
+田舎と森のタイルセット - 湖畔 (C) Kaue Lucheta
+エタナラ
+RPGツクール MV Trinityグラフィック＆音楽素材集 (C)Gotcha Gotcha Games Inc.
+Hiroita
+茂吉
+Nicnubill
+StarbirdResources
+PhantomGline
+PandaMaru
+WTR
+SFタイルセット (C) Sherman3D
+ロイヤル・タイルセット素材集 (C)2014 Degica.com
+スチームパンクミニタイルセット：町編 (C) Sherman3D
+tokkuri
+瀝青炭
+呪われた王国ダンジョンタイル (C) Dragoonwys
+Dreamy park
+
+
+
+○ＢＧＭ・効果音等
+
+田中芳典
+Ucchii0-うっちーゼロ-
+The Music Box Japanese Horror
+Silent Horror Music
+On-Jin ～音人～
+ザ・マッチメイカァズ
+月に憑かれたピエロ
+くらげ工匠
+ISAo
+機工
+小森 平
+ユーフルカ
+ミルアージュ
+Music-Note.jp
+M-ART
+甘茶の音楽工房
+もっぴーさうんど
+しゃろう
+こおろぎ
+背景音楽素材集・死霊使い（ネクロマンサー）の森 (C) 2014 Darkraven Fantasy Soundscapes.
+鷹尾まさき
+まんぼう二等兵
+ノタの森
+yoshikawa45
+alaki paca
+Notzan ACT
+稿屋　隆
+くちまる
+shimtone
+MT:MiT
+ilodolly
+風可＆葉羽
+魔王魂
+Justina
+ゆうり
+TRAGEDY AND DRAMA MUSIC PACK (C) Richard John S.
+ポケットサウンド
+ユウキチ
+Raffaele De Leonardo / melody loops
+Nightmares Music Pack (C) JDB Artist
+pikaMine
+ハシマミ
+lei
+Justina
+G-MIYA
+魔界Symphony
+魔法系効果音パック(C) Daydream Sound
+OtoLogic
+Samurai Classics
+Dark Horror Cinematic Music Vol.1
+タピオカ
+H/MIX GALLERY
+すもち
+のる
+House of Horror Music Vol.1
+タイガーリリー
+Daniel Simon
+VoiceBloom
+
+
+
+○スクリプト
+
+ツクール工房 A1（仮）
+さば缶
+星潟
+みんと
+Atelier Rgss
+C Winter
+ももまるLab
+DEICIDE ALMA
+坂本晶一郎
+まったりツクール雑貨
+misty_rain　（http://kilisamenosekai.web.fc2.com/）
+ひきも記
+ペンギンの寝床
+落書き電子手帳
+CACAO SOFT
+回想領域
+Libのツクールページ　（http://librpg.zatunen.com/）
+鳥小屋.txt
+サリサ・タイクーン
+gentlawk
+白の魔
+ヒール　（http://hi-ru.blog.jp/）
+しいたけサイクロン
+オシブ
+GYM
+

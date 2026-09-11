@@ -1,0 +1,142 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+In order to reach the True Ending, the player has to do the following:
+
+1. The first item can be obtained by interacting with Arkos' grave in Martyrdom Cemetery. After interacting with the grave, 
+   the player will have the option to fight Arkos. Defeating him grants the 'Crimson Wrath's Light' item.
+
+   Sidenote: Once the level of progression reaches 10, Anfarwol, the boss of Martyrdom Cemetery, will destroy Arkos' grave, making it impossible to 
+   interact with on that cycle. The player must either interact with the grave before progression reaches that level or kill Anfarwol beforehand.
+
+2. The next required item is the 'Faint Light of Pale Eternity'. The player must first complete the game once and unlock the option to start new cycles.
+   Once the player transitions into a new cycle, the door to Gwirionedd Orphanage will be permanently unlocked, allowing early access to the Promised Garden - Seren location. 
+   The player must reach the Garden’s boss, Risu, at progression 0 in that new cycle. Upon defeating her, the player will achieve the [Her World] ending and obtain the 'Faint Light of Pale Eternity' item.
+
+   Sidenote: To get the item, the player has to enter the Garden without meeting Fetus, which will cause her to die and prevent the True Ending from being obtainable in that cycle. 
+   However, that is not really an issue as the player can immediately start a new cycle after defeating Risu. The [Her World] ending can also be achieved by losing to Risu, but this will not grant the required item.
+
+3. The next item is 'Blue Plague's Light', obtained by defeating the Corrupted Hero boss in the Blue Frontier area.
+
+4. The final required item is 'Abyssal Dream's Light', obtained by defeating Maruoris, the boss of Abyssal Sanctum, very early into a cycle.
+
+After collecting all of these items, Fetus will now appear in Gwirionedd Orphanage, sitting in front of one of the benches. The player needs to talk to her. 
+If she died in the current cycle, the player must start a new one to make her appear.
+
+Once the player is done talking with Fetus, they will have to go to the Promised Garden - Seren and meet with Fetus there. After that, they will have to defeat Risu again.
+
+After Risu is defeated, the Umbral Basin's seal will be unlocked (Unless it has already been unlocked by the player in that cycle by defeating the four Daughters of Wrath)
+and the red crystal in the orphanage will also have the Umbral Basin location unlocked (It will be called 'Obetion's Scar' in the crystal, though).
+
+Upon reaching the distortion in the Umbral Basin, the final step to achieve the True Ending is to defeat Dial.
