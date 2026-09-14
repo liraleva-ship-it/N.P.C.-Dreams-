@@ -952,7 +952,7 @@ class Window_ItemSynthesisMaterial < Window_Base
     rect = Rect.new(x, y, contents.width, line_height)
     change_color(system_color)
     contents.font.size = 18
-    draw_text(rect, "Required Materials/Required Skills", 0)
+    draw_text(rect, "Необходимые материалы / Навыки", 0)
     if @recipe
       for i in 1...@recipe.size
         kind = @recipe[i][0]
@@ -1087,7 +1087,7 @@ class Window_ItemSynthesisChange < Window_Base
   #--------------------------------------------------------------------------
   def refresh
     contents.clear
-    text = "← Q Go to previous page / Go to next page W →"
+    text = "← Q Предыдущая страница / Следующая страница W →"
     draw_text(0, 0, contents_width, line_height, text, 1)
   end
 end

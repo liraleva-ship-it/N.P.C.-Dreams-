@@ -12,12 +12,12 @@
 #　● Audioモジュールに以下のメソッドが追加されます
 #　Audio.bgm_vol …… BGMのマスターボリューム取得
 #　Audio.bgs_vol …… BGSのマスターボリューム取得
-#　Audio.se_vol  …… SEのマスターボリューム取得
-#　Audio.me_vol  …… MEのマスターボリューム取得
+#　Audio.se_vol …… SEのマスターボリューム取得
+#　Audio.me_vol …… MEのマスターボリューム取得
 #　Audio.bgm_vol=数値 …… BGMのマスターボリューム設定（0～100）
 #　Audio.bgs_vol=数値 …… BGSのマスターボリューム設定（0～100）
-#　Audio.se_vol=数値  …… SEのマスターボリューム設定（0～100）
-#　Audio.me_vol=数値  …… MEのマスターボリューム設定（0～100）
+#　Audio.se_vol=数値 …… SEのマスターボリューム設定（0～100）
+#　Audio.me_vol=数値 …… MEのマスターボリューム設定（0～100）
 #
 #-------------------------------------------------------------------------------
 # 【更新履歴】
@@ -33,84 +33,72 @@
 # 2011/12/13 ini読込との連携を可能に
 # 2011/12/01 ぶっぱ
 #-------------------------------------------------------------------------------
-
 #===============================================================================
 # ● 設定項目
 #===============================================================================
 module HZM_VXA
   module AudioVol
     # ● タイトル画面に音量調整を表示するか？
-    #    ※タイトル画面のメニュー項目を再定義するため，
-    #      他にタイトルのメニューをいじるスクリプトを導入する場合は
-    #      競合する可能性があります．
-    # 　true  …… 表示する
+    # ※タイトル画面のメニュー項目を再定義するため，
+    # 他にタイトルのメニューをいじるスクリプトを導入する場合は
+    # 競合する可能性があります．
+    # 　true …… 表示する
     # 　false …… 表示しない
     TITLE_FLAG = true
     # タイトル画面に表示する項目名
-    TITLE_NAME = "ＶＯＬＵＭＥ"
-
+    TITLE_NAME = "Громкость"
     # ● メニュー画面に音量調整を表示するか？
-    # 　true  …… 表示する
+    # 　true …… 表示する
     # 　false …… 表示しない
     MENU_FLAG = true
     # メニュー画面に表示する項目名
-    MENU_NAME = "Sound"
-
+    MENU_NAME = "Звук"
     # ● 戦闘メニュー画面に音量調整を表示するか？
-    #    ※挙動が不安定なため非推奨です
-    # 　true  …… 表示する
+    # ※挙動が不安定なため非推奨です
+    # 　true …… 表示する
     # 　false …… 表示しない
     BATTLE_FLAG = false
     # メニュー画面に表示する項目名
-    BATTLE_NAME = "Sound"
-
+    BATTLE_NAME = "Звук"
     # ● 音量変更項目のタイプ
     # 　0 …… BGM/BGS/SE/MEすべて一括で設定
-    #   1 …… BGM＋BGS と SE＋ME の2種類で設定
-    #   2 …… BGM/BGS/SE/ME の4種類それぞれで設定
+    # 1 …… BGM＋BGS と SE＋ME の2種類で設定
+    # 2 …… BGM/BGS/SE/ME の4種類それぞれで設定
     TYPE = 1
-
     # ● 音量設定画面の項目名
-    CONFIG_ALL_NAME  = "Volume"        # タイプ「0」を選択時に使用されます
-    CONFIG_BGM_NAME  = "BGM"         # タイプ「1」「2」を選択時に使用されます
-    CONFIG_BGS_NAME  = "BGS"         # タイプ「2」を選択時に使用されます
-    CONFIG_SE_NAME   = "SE"          # タイプ「1」「2」を選択時に使用されます
-    CONFIG_ME_NAME   = "ME"          # タイプ「2」を選択時に使用されます
-    CONFIG_EXIT_NAME = "OK"
-
+    CONFIG_ALL_NAME = "Громкость" # タイプ「0」を選択時に使用されます
+    CONFIG_BGM_NAME = "Музыка" # タイプ「1」「2」を選択時に使用されます
+    CONFIG_BGS_NAME = "Фон" # タイプ「2」を選択時に使用されます
+    CONFIG_SE_NAME = "Звуки" # タイプ「1」「2」を選択時に使用されます
+    CONFIG_ME_NAME = "Мелодии" # タイプ「2」を選択時に使用されます
+    CONFIG_EXIT_NAME = "Готово"
     # ● 音量変更の変動量
-    ADD_VOL_NORMAL =  1              # 左右キーの変動量
-    ADD_VOL_HIGH   = 5              # LRキーの変動量
-
+    ADD_VOL_NORMAL = 1 # 左右キーの変動量
+    ADD_VOL_HIGH = 5 # LRキーの変動量
     # ● 音量設定画面のウィンドウ幅
-    WINDOW_WIDTH   = 200
-
+    WINDOW_WIDTH = 200
     # ● 音量変更画面の音量ゲージの色
-    COLOR1 = Color.new( 100,  100, 100)
-    COLOR2 = Color.new( 255,  255, 255)
-
+    COLOR1 = Color.new( 100, 100, 100)
+    COLOR2 = Color.new( 255, 255, 255)
     # ● 音量設定を Game.ini に保存する
-    #    Game.ini内に音量情報を保存することで
-    #    次回起動時にも音量を反映できるようになります
-    #    true  …… 保存する
-    #    false …… 保存しない
+    # Game.ini内に音量情報を保存することで
+    # 次回起動時にも音量を反映できるようになります
+    # true …… 保存する
+    # false …… 保存しない
     USE_INI = true
-
     # ● 音量設定を volume_config.rvdata2 に保存する
-    #    volume_config.rvdata2 内に音量情報を保存することで
-    #    次回起動時にも音量を反映できるようになります。
-    #    USE_INI が ON の場合は無効になります
-    #    true  …… 保存する
-    #    false …… 保存しない
+    # volume_config.rvdata2 内に音量情報を保存することで
+    # 次回起動時にも音量を反映できるようになります。
+    # USE_INI が ON の場合は無効になります
+    # true …… 保存する
+    # false …… 保存しない
     USE_SAVE = false
   end
 end
-
 #===============================================================================
 # ↑ 　 ここまで設定 　 ↑
 # ↓ 以下、スクリプト部 ↓
 #===============================================================================
-
 module Audio
   #-----------------------------------------------------------------------------
   # ● 音量設定：BGM（独自）
@@ -168,7 +156,6 @@ module Audio
     @hzm_vxa_audioVol_me ||= 100
   end
 end
-
 class << Audio
   #-----------------------------------------------------------------------------
   # ● 再生：BGM（エイリアス）
@@ -212,17 +199,16 @@ class << Audio
     alias volME= me_vol=
   end
 end
-
 # タイトル画面に追加
 if HZM_VXA::AudioVol::TITLE_FLAG
   class Window_TitleCommand < Window_Command
     if true
       # ↑ この true を false に変更すると，
-      #    タイトル画面のメニュー項目を再定義ではなくエイリアスで
-      #    追加するようになります．
-      #    他のタイトルメニュー拡張系のスクリプトとの競合は起きにくくなりますが，
-      #    副作用として，シャットダウンの下に音量設定の項目が追加されます．
-      #    必要に合わせて……(・ｘ・)
+      # タイトル画面のメニュー項目を再定義ではなくエイリアスで
+      # 追加するようになります．
+      # 他のタイトルメニュー拡張系のスクリプトとの競合は起きにくくなりますが，
+      # 副作用として，シャットダウンの下に音量設定の項目が追加されます．
+      # 必要に合わせて……(・ｘ・)
       #---------------------------------------------------------------------------
       # ● コマンドリストの作成（再定義）
       #---------------------------------------------------------------------------
@@ -261,7 +247,6 @@ if HZM_VXA::AudioVol::TITLE_FLAG
     end
   end
 end
-
 # メニューに追加
 if HZM_VXA::AudioVol::MENU_FLAG
   class Window_MenuCommand < Window_Command
@@ -291,7 +276,6 @@ if HZM_VXA::AudioVol::MENU_FLAG
     end
   end
 end
-
 # 戦闘メニューに追加
 if HZM_VXA::AudioVol::BATTLE_FLAG
   class Window_PartyCommand < Window_Command
@@ -311,7 +295,7 @@ if HZM_VXA::AudioVol::BATTLE_FLAG
     alias hzm_vxa_audio_vol_create_party_command_window create_party_command_window
     def create_party_command_window
       hzm_vxa_audio_vol_create_party_command_window
-      @party_command_window.set_handler(:hzm_vxa_audio_vol,  method(:hzm_vxa_audio_vol_command_config))
+      @party_command_window.set_handler(:hzm_vxa_audio_vol, method(:hzm_vxa_audio_vol_command_config))
     end
     #--------------------------------------------------------------------------
     # ● コマンド［逃げる］
@@ -322,7 +306,6 @@ if HZM_VXA::AudioVol::BATTLE_FLAG
     end
   end
 end
-
 # 音量変更ウィンドウ
 module HZM_VXA
   module AudioVol
@@ -333,7 +316,7 @@ module HZM_VXA
       def initialize
         @mode = HZM_VXA::AudioVol::TYPE.to_i
         super(0, 0)
-        self.x = (Graphics.width  - self.window_width ) / 2
+        self.x = (Graphics.width - self.window_width ) / 2
         self.y = (Graphics.height - self.window_height) / 2
       end
       #-------------------------------------------------------------------------
@@ -373,15 +356,15 @@ module HZM_VXA
       def make_command_list_actions
         case @mode
         when 0
-          add_command(HZM_VXA::AudioVol::CONFIG_ALL_NAME,  :all)
+          add_command(HZM_VXA::AudioVol::CONFIG_ALL_NAME, :all)
         when 1
-          add_command(HZM_VXA::AudioVol::CONFIG_BGM_NAME,  :bgm)
-          add_command(HZM_VXA::AudioVol::CONFIG_SE_NAME,   :se)
+          add_command(HZM_VXA::AudioVol::CONFIG_BGM_NAME, :bgm)
+          add_command(HZM_VXA::AudioVol::CONFIG_SE_NAME, :se)
         else
-          add_command(HZM_VXA::AudioVol::CONFIG_BGM_NAME,  :bgm)
-          add_command(HZM_VXA::AudioVol::CONFIG_BGS_NAME,  :bgs)
-          add_command(HZM_VXA::AudioVol::CONFIG_SE_NAME,   :se)
-          add_command(HZM_VXA::AudioVol::CONFIG_ME_NAME,   :me)
+          add_command(HZM_VXA::AudioVol::CONFIG_BGM_NAME, :bgm)
+          add_command(HZM_VXA::AudioVol::CONFIG_BGS_NAME, :bgs)
+          add_command(HZM_VXA::AudioVol::CONFIG_SE_NAME, :se)
+          add_command(HZM_VXA::AudioVol::CONFIG_ME_NAME, :me)
         end
       end
       #-------------------------------------------------------------------------
@@ -424,7 +407,6 @@ module HZM_VXA
       #-------------------------------------------------------------------------
       def vol_add(index, val)
         call_flag = false
-
         case command_symbol(index)
         when :all
           call_flag = add_vol_bgm(val)
@@ -439,11 +421,10 @@ module HZM_VXA
           call_flag = add_vol_bgs(val)
         when :se
           call_flag = add_vol_se(val)
-#~           Audio.me_vol = Audio.se_vol if @mode == 1
+#~ Audio.me_vol = Audio.se_vol if @mode == 1
         when :me
           call_flag = add_vol_me(val)
         end
-
         if call_flag
           Sound.play_cursor
           redraw_item(index)
@@ -474,7 +455,7 @@ module HZM_VXA
       end
       #--------------------------------------------------------------------------
       # ● 決定ボタンが押されたときの処理
-      #    ※音量設定欄だったら無視する
+      # ※音量設定欄だったら無視する
       #--------------------------------------------------------------------------
       def process_ok
         case current_symbol
@@ -491,13 +472,13 @@ module HZM_VXA
         vol_add(@index, -HZM_VXA::AudioVol::ADD_VOL_NORMAL)
       end
       def cursor_right(wrap = false)
-        vol_add(@index,  HZM_VXA::AudioVol::ADD_VOL_NORMAL)
+        vol_add(@index, HZM_VXA::AudioVol::ADD_VOL_NORMAL)
       end
       def cursor_pageup
         vol_add(@index, -HZM_VXA::AudioVol::ADD_VOL_HIGH)
       end
       def cursor_pagedown
-        vol_add(@index,  HZM_VXA::AudioVol::ADD_VOL_HIGH)
+        vol_add(@index, HZM_VXA::AudioVol::ADD_VOL_HIGH)
       end
     end
     class Scene_VolConfig < Scene_MenuBase
@@ -509,8 +490,8 @@ module HZM_VXA
         create_help_window
         @command_window = Window_VolConfig.new
         @command_window.viewport = @viewport
-        @command_window.set_handler(:cancel,   method(:return_scene))
-        @help_window.set_text("“←” Decrease volume by 1 / Increase volume by 1 “→” \n“Q” Decrease volume by 5 / Increase volume by 5 “W”")
+        @command_window.set_handler(:cancel, method(:return_scene))
+        @help_window.set_text("«←» Уменьшить на 1 / Увеличить на 1 «→»\n«Q» Уменьшить на 5 / Увеличить на 5 «W»")
       end
       #-------------------------------------------------------------------------
       # ● 終了処理
@@ -518,7 +499,6 @@ module HZM_VXA
       def terminate
         super
         @command_window.dispose
-
         if HZM_VXA::AudioVol::USE_INI
           HZM_VXA::Ini.save('AudioVol', 'BGM', Audio.bgm_vol)
           HZM_VXA::Ini.save('AudioVol', 'BGS', Audio.bgs_vol)
@@ -542,7 +522,6 @@ module HZM_VXA
     end
   end
 end
-
 if HZM_VXA::AudioVol::USE_INI
   # ベーススクリプトが導入されてない場合は簡易版で動作
   unless defined?(HZM_VXA::Ini)
@@ -565,8 +544,8 @@ if HZM_VXA::AudioVol::USE_INI
   # 音量初期値読込
   Audio.bgm_vol = (HZM_VXA::Ini.load('AudioVol', 'BGM') or 100)
   Audio.bgs_vol = (HZM_VXA::Ini.load('AudioVol', 'BGS') or 100)
-  Audio.se_vol  = (HZM_VXA::Ini.load('AudioVol', 'SE') or 100)
-  Audio.me_vol  = (HZM_VXA::Ini.load('AudioVol', 'ME') or 100)
+  Audio.se_vol = (HZM_VXA::Ini.load('AudioVol', 'SE') or 100)
+  Audio.me_vol = (HZM_VXA::Ini.load('AudioVol', 'ME') or 100)
 elsif HZM_VXA::AudioVol::USE_SAVE
   begin
     File.open('volume_config.rvdata2', 'rb') do |file|
