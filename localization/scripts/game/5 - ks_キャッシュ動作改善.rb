@@ -1,0 +1,195 @@
+=begin
+
+★ks_キャッシュ動作改善
+最終更新日 2012/12/30
+2013/03/24  再入性を確保し、マルチスレッド処理に対応
+2012/12/30  任意の名前・サイズのビットマップをキャッシュに保存する機能を実装
+2012/04/10  もうちょっと最適化
+
+□===制作・著作===□
+MaidensnowOnline  暴兎
+見た目にまったく判らないスクリプトなので、著作権表記は必要ありません。
+効果の有無を把握したいので、使用感は是非教えてください。
+
+□===配置場所===□
+Cache モジュールを再定義するので、
+可能な限り'Cache'近くに配置してください。
+
+□===説明・使用方法===□
+画像ファイルをキャッシュを通して読み出そうとするたびに生成される
+文字列やArrayの数を最小限にし、動作の軽量化を図る。
+ウィンドウ･戦闘アニメ･歩行グラフィックの表示･変更が頻繁に行われる場合、
+特に軽量化効果が高くなります。
+全部大量に使ってるメイデンスノウではあほかとおもうぐらい軽くなりました。
+
+□===使用上の注意===□
+色相を変更した画像キャッシュのキーの構造が変更されているので、
+(まずないと思いますが)キャッシュの中の画像を直に指定する場合は注意が必要です。
+
+□===新規定義しているメソッド===□
+module Cache
+  def self.put_bitmap(name, width, height)
+
+□===再定義しているメソッド===□
+module Cache
+  self.animation(filename, hue)
+  self.battler(filename, hue)
+  self.character(filename)
+  self.face(filename)
+  self.parallax(filename)
+  self.picture(filename)
+  self.system(filename)
+  self.load_bitmap(folder_name, filename, hue = 0)
+
+=end
+
+
+#==============================================================================
+# ■ Cache
+#------------------------------------------------------------------------------
+# 文字列や配列の生成数を抑えたものに改装
+#==============================================================================
+module Cache
+  PATH_ANIMATIONS = 'Graphics/Animations/'
+  PATH_BATTLERS   = 'Graphics/Battlers/'
+  PATH_CHARACTERS = 'Graphics/Characters/'
+  PATH_FACES      = 'Graphics/Faces/'
+  PATH_PARALLAXES = 'Graphics/Parallaxes/'
+  PATH_PICTURES   = 'Graphics/Pictures/'
+  PATH_SISTEM     = 'Graphics/System/'
+  #--------------------------------------------------------------------------
+  # ● アニメーション グラフィックの取得
+  #--------------------------------------------------------------------------
+  def self.animation(filename, hue)
+    load_bitmap(PATH_ANIMATIONS, filename, hue)
+  end
+  #--------------------------------------------------------------------------
+  # ● 戦闘グラフィックの取得
+  #--------------------------------------------------------------------------
+  def self.battler(filename, hue)
+    load_bitmap(PATH_BATTLERS, filename, hue)
+  end
+  #--------------------------------------------------------------------------
+  # ● 歩行グラフィックの取得
+  #--------------------------------------------------------------------------
+  def self.character(filename)
+    load_bitmap(PATH_CHARACTERS, filename)
+  end
+  #--------------------------------------------------------------------------
+  # ● 顔グラフィックの取得
+  #--------------------------------------------------------------------------
+  def self.face(filename)
+    load_bitmap(PATH_FACES, filename)
+  end
+  #--------------------------------------------------------------------------
+  # ● 遠景グラフィックの取得
+  #--------------------------------------------------------------------------
+  def self.parallax(filename)
+    load_bitmap(PATH_PARALLAXES, filename)
+  end
+  #--------------------------------------------------------------------------
+  # ● ピクチャ グラフィックの取得
+  #--------------------------------------------------------------------------
+  def self.picture(filename)
+    load_bitmap(PATH_PICTURES, filename)
+  end
+  #--------------------------------------------------------------------------
+  # ● システム グラフィックの取得
+  #--------------------------------------------------------------------------
+  def self.system(filename)
+    load_bitmap(PATH_SISTEM, filename)
+  end
+
+  #--------------------------------------------------------------------------
+  # ● キャッシュに指定したキー・サイズのビットマップを格納する
+  #    ビットマップが新たに生成された場合、第一返り値にtrueを返す
+  #    ビットマップは第二返り値
+  #--------------------------------------------------------------------------
+  def self.put_bitmap(name, width, height)
+    if !@cache.key?(name) or @cache[name].disposed?
+      return true, (@cache[name.dup] = Bitmap.new(width, height))
+    elsif @cache[name].width != width || @cache[name].height != height
+      @cache[name].dispose
+      return true, (@cache[name.dup] = Bitmap.new(width, height))
+    else
+      return false, @cache[name]
+    end
+  end
+  class << self
+    alias clear_for_tmpfilepaths clear unless $@
+    def clear
+      clear_for_tmpfilepaths 
+      TMP_FILEPATHS.clear
+    end
+  end
+  TMP_FILEPATHS = Hash.new{|has, thread|
+    has[thread] = ""
+  }
+  #--------------------------------------------------------------------------
+  # ● ビットマップの読み込み
+  #--------------------------------------------------------------------------
+  def self.load_bitmap(folder_name, filename, hue = 0)
+    @cache ||= Hash.new
+    path = TMP_FILEPATHS[Thread.current].clear.concat(folder_name).concat(filename)
+    if !@cache.key?(path) or @cache[path].disposed?
+      patf = path.dup
+      if filename.empty?
+        @cache[patf] = Bitmap.new(32, 32).set_filename(patf)#.set_basename(filename)
+      else
+        @cache[patf] = Bitmap.new(patf).set_filename(patf)#.set_basename(filename)
+      end
+    end
+
+    if hue == 0
+      @cache[path]
+    else
+      @cache[:has] ||= Hash.new
+      @cache[:has][path] ||= {}
+      if !@cache[:has][path].key?(hue) or @cache[:has][path][hue].disposed?
+        @cache[:has][path][hue] = @cache[path].clone
+        @cache[:has][path][hue].hue_change(hue)
+      end
+      @cache[:has][path][hue]
+    end
+  end
+end
+
+
+
+#==============================================================================
+# ■ Bitmap
+#==============================================================================
+class Bitmap
+  attr_reader :filename, :basename
+  def set_basename(v)
+    @basename = v
+    self
+  end
+  def set_filename(v)
+    @filename = v
+    self
+  end
+  def to_s
+    @filename ? "#{super}}#{@filename}" : super
+  end
+  #def dup
+  #  super.set_filename("#{@filename}(duped)")
+  #end
+  #def clone
+  #  super.set_filename("#{@filename}(cloned)")
+  #end
+end
+
+
+
+#==============================================================================
+# ■ NilClass
+#==============================================================================
+class NilClass
+  #--------------------------------------------------------------------------
+  # ● 開放済みであるか？
+  #--------------------------------------------------------------------------
+  def disposed?
+    false
+  end
+end

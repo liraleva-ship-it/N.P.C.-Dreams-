@@ -1,0 +1,215 @@
+#
+#   * アイテム合成のデータ設定
+#
+#
+#   ※ アイテム合成スクリプト本体より下に導入してください。
+#   ※ 増減させるアイテムの設定で同じアイテムは重複できません。
+#   ※ データの出力は、テストプレイ時のみ行います。
+#   ※ データの出力後、このスクリプトは不要です。
+#
+
+
+# レシピの設定
+ITEMMAKE_RECIPES = [
+  # アイコン, 名前, 価格, [減らすアイテム], [増やすアイテム], 説明
+  
+  # [1] 調合
+#~   [192, "ハイポーション",   0, ["I1:3"],    ["I2:1"], 1002],
+#~   [192, "フルポーションＡ", 0, ["I1:10"],   ["I3:1"], 1003],
+#~   [192, "フルポーションＢ", 0, ["I2:3"],    ["I3:1"], 1003],
+#~   [197, "エリクサー",       0, ["I3","I4"], ["I8:1"], 1008],
+#~   [194, "ディスペルハーブ", 0, ["I5"],      ["I7:3"], 1007],
+#~   
+#~   # [6] 鍛冶屋
+#~   [147, "ロングソード", 300,  ["W19:2"],     ["W20"], 2020],
+#~   [147, "ファルシオン", 1000, ["W20:2"],     ["W21"], 2021],
+#~   [149, "クロスボウ",   1000, ["W13","W55"], ["W33"], 2033],
+
+    [1464, "Runaway, Tan Fernig", 0, ["I37","I43"], ["W700"], 2700],
+    [1464, "Chaplain Tarian", 0, ["I42","I43"], ["A99"], 3099],
+    [1464, "Ancient Sage", 0, ["I50","I43"], ["A100"], 3100],
+    [1464, "Radiant Butterfly", 0, ["I52","I43"], ["I109"], 
+    "Learn 【Hero's Rhythm】. \nEffect: Increases all stats by 1 stage. (300MP)"],
+    [1464, "Unwild, Hawk of the Wind", 0, ["I69","I43"], ["W706"], 2706],
+    [1465, "Saruf, The Blue Plague", 0, ["I75","I43"], ["A98"], 3098],
+    [1464, "Fallen Children", 0, ["I77","I43"], ["I110","I111","I112"], 
+    "Party Time: Increases all stats by 1.2 (Unique) \nNightmare Rose: Life Steal, Babi's Sleep: Full Hp Recovery"],
+    [1464, "Abyssal Dream's Obsession", 0, ["I81","I43"], ["I114:20"], 1116],
+    [1464, "Tenacity of Believers", 0, ["I82","I43"], ["I115:20"], 1117],
+    [1464, "Sorcerer Crediur", 0, ["I94","I43"], ["W712"], 2712],
+    [1465, "Maruoris, The Abyssal Dream", 0, ["I99","I43"], ["I100"], 
+    "Learn 【Dark Temptation】. \nEffect: ATK, MAG, DEF and MDF reduced to 0% until next action."],
+    [1467, "Maruoris' Technique", 0, ["I105","I43"], ["I113"], 
+    "Learn 【Nightshroud Eclipse】 \nEffect Temporarily multiples ATK and MAG by 3~1.5 (HP Cost)"],   
+    [1650, "Llawenydd, Daughter of Wrath", 0, ["I118","I43"], ["A110"], 3110],
+    [1650, "Anfarwol, Daughter of Wrath", 0, ["I119","I43"], ["W718"], 2718],
+    [1654, "Carchar Hela, Daughter of Wrath", 0, ["I120","I43"], ["W724"], 2724],
+    [1650, "Syvthiedy, Daughter of Wrath", 0, ["I121","I43"], ["I145"], 
+    "Learn 【Violent Nature】. \nEffect: Get 1 more action on the next turn. (Once per battle)"],
+    [1467, "Arkos, Sword of Dreams", 0, ["I136","I43"], ["I133"], 
+    "Learn 【Arkos' Stance】. \nEffect: Evade all attacks, with a 40% chance to counter."],
+    [1467, "Corrupted Knight", 0, ["I137","I43"], ["I146:20"], 1147],
+    [1465, "Risu, The Pale Eternity", 0, ["I135","I43"], ["W742"], 2742],#19
+    [1465, "ダミー20", 0, ["I134","I43"], ["W740"], 2740],
+    [1465, "ダミー21", 0, ["I134","I43"], ["W740"], 2740],
+    [1465, "ダミー22", 0, ["I134","I43"], ["W740"], 2740],
+    [1465, "ダミー23", 0, ["I134","I43"], ["W740"], 2740],
+    [1465, "ダミー24", 0, ["I134","I43"], ["W740"], 2740],
+    [1465, "ダミー25", 0, ["I134","I43"], ["W740"], 2740],
+    [1465, "ダミー26", 0, ["I134","I43"], ["W740"], 2740],
+    [1465, "ダミー27", 0, ["I134","I43"], ["W740"], 2740],
+    [1465, "ダミー28", 0, ["I134","I43"], ["W740"], 2740],
+    [1465, "ダミー29", 0, ["I134","I43"], ["W740"], 2740],
+    [1465, "ダミー30", 0, ["I134","I43"], ["W740"], 2740],
+    [1465, "ダミー31", 0, ["I134","I43"], ["W740"], 2740],
+    [1465, "ダミー32", 0, ["I134","I43"], ["W740"], 2740],
+    [1465, "ダミー33", 0, ["I134","I43"], ["W740"], 2740],
+    [1465, "ダミー34", 0, ["I134","I43"], ["W740"], 2740],
+    [1465, "ダミー35", 0, ["I134","I43"], ["W740"], 2740],
+    [1465, "ダミー36", 0, ["I134","I43"], ["W740"], 2740],
+    [1465, "ダミー37", 0, ["I134","I43"], ["W740"], 2740],
+    [1465, "ダミー38", 0, ["I134","I43"], ["W740"], 2740],
+    [1465, "ダミー39", 0, ["I134","I43"], ["W740"], 2740],
+    [1465, "ダミー40", 0, ["I134","I43"], ["W740"], 2740],
+    
+#~   
+#~   # [9] 交換
+#~   [168, "普段着",         0, ["A1"],  ["I1"],
+#~     "普段着をポーションをと交換します。"],
+#~   [162, "バンダナ",       0, ["A6"],  ["I1"],
+#~     "バンダナをポーションと交換します。"],
+#~   [179, "幸運のお守り",   0, ["A55"], ["I16:5"],
+#~     "幸運のお守りをラックアップと交換します。"],
+#~   [179, "光のタリスマン", 0, ["A60"], ["I11","I12","I13","I14","I15","I16"],
+#~     "光のタリスマンをいろいろと交換します。"],
+#~   
+#~   # [13] セット販売
+#~   [192, "回復セット", 350, [], ["I1:2","I4","I6"],
+#~     "ポーション、マジックウォーター、アンチドーテのセット"],
+#~   [164, "勇者セット", 500, [], ["W19","A46","A21","I1:3","I6:2"],
+#~     "初めての勇者セットです。\n駆け出しの勇者さんにおすすめです。"],
+#~   
+#~   # [15] 合成 (増やすアイテム, 価格, [減らすアイテム])
+#~   ["I2",  10, ["I1:3"]],
+#~   [100203, 0, ["I1:5", "I2:2"]],
+]
+
+
+ITEMMAKE_BOOKS = [
+  # アイコン, 名前, [リスト], [減数,増数], [減名,増名], [背景,前景], "効果音"
+  [230, "すべて", Array(1..19), [],    [], [], "Fire2", :nosct],
+#~   [279, "調　合", [1,2,3,4,5],  [2,2], [], [], :nosct],
+#~   [284, "鍛冶屋", [6,7,8,2],      [],    [], [], :price, :qty],
+#~   [495, "交　換", [9,10,11,12], [1,6], ["渡すアイテム","受け取るアイテム"]],
+#~   [270, "セット", [13,14],      [0,5], ["","セット内容"], [], [], :price],
+]
+
+
+#/////////////////////////////////////////////////////////////////////////////#
+#                                                                             #
+#                下記のスクリプトを変更する必要はありません。                 #
+#                                                                             #
+#/////////////////////////////////////////////////////////////////////////////#
+
+  
+# レシピデータの出力
+def save_item_make_recipe_data
+  result = [nil]
+  ITEMMAKE_RECIPES.each do |data|
+    recipe = RPG::ItemMake::Recipe.new
+    recipe.id = result.size
+    if data.size == 3
+      item = RPG::ItemMake::Item.new(data[0]).object
+      recipe.icon_index = item.icon_index
+      recipe.name = item.name
+      recipe.price = data[1].to_i
+      recipe.minus_items = data[2].map {|s| RPG::ItemMake::Item.new(s) }
+      recipe.plus_items = [RPG::ItemMake::Item.new(data[0])]
+      recipe.description = item.description
+    else
+      recipe.icon_index = data[0]
+      recipe.name = data[1]
+      recipe.price = data[2].to_i
+      recipe.minus_items = data[3].map {|s| RPG::ItemMake::Item.new(s) }
+      recipe.plus_items = data[4].map {|s| RPG::ItemMake::Item.new(s) }
+      recipe.description = data[5]
+    end
+    result << recipe
+  end
+  save_data(result, "Data/#{CAO::ItemMake::FILE_RECIPE}")
+end
+  
+# レシピブックデータの出力
+def save_item_make_book_data
+  result = [nil]
+  ITEMMAKE_BOOKS.each do |data|
+    book = RPG::ItemMake::Book.new
+    book.id = result.size
+    book.icon_index = data[0]
+    book.name = data[1]
+    book.list = data[2]
+    if data[3].is_a?(Array)
+      book.minus_number = data[3][0] if data[3][0]
+      book.plus_number = data[3][1] if data[3][1]
+    end
+    if data[4].is_a?(Array)
+      book.minus_name = data[4][0]
+      book.plus_name = data[4][1]
+    end
+    if data[5].is_a?(Array)
+      book.background_name = data[5][0]
+      book.foreground_name = data[5][1]
+    end
+    case data[6]
+    when String
+      book.make_se.name   = data[6]
+      book.make_se.volume = 80
+      book.make_se.pitch  = 100
+    when Array
+      book.make_se.name   = data[6][0] || ""
+      book.make_se.volume = data[6][1] || 80
+      book.make_se.pitch  = data[6][2] || 100
+    end
+    
+    book.display_price = data.include?(:price)
+    book.visible_window = !data.include?(:nownd)
+    book.visible_secret = !data.include?(:nosct)
+    book.specify_quantity = data.include?(:qty)
+    result << book
+  end
+  save_data(result, "Data/#{CAO::ItemMake::FILE_BOOK}")
+end
+
+def chack_item_make_data
+  data = [] << $data_items << $data_weapons << $data_armors
+  books = load_data("Data/#{CAO::ItemMake::FILE_BOOK}")
+  recipes = load_data("Data/#{CAO::ItemMake::FILE_RECIPE}")
+  
+  (1...books.size).each do |book_id|
+    books[book_id].list.each do |recipe_id|
+      unless recipes[recipe_id]
+        msgbox "ブック #{book_id} 番\n#{recipe_id} 番のレシピが見つかりません。"
+        next
+      end
+      imitems = recipes[recipe_id].plus_items | recipes[recipe_id].minus_items
+      imitems.each do |im|
+        item = data[im.class_id][im.item_id]
+        unless item
+          msgbox "レシピ #{recipe_id} 番\n#{im.item_id} 番の" +
+                 "#{["アイテム","武器","防具"][im.class_id]}が見つかりません。"
+          next
+        end
+      end
+    end
+  end
+end
+
+if $TEST
+  $data_items   = load_data("Data/Items.rvdata2")
+  $data_weapons = load_data("Data/Weapons.rvdata2")
+  $data_armors  = load_data("Data/Armors.rvdata2")
+
+  save_item_make_recipe_data
+  save_item_make_book_data
+  chack_item_make_data
+end
