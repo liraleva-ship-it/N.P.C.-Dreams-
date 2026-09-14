@@ -10,15 +10,35 @@
 # Не требует Yanfly System Options.
 # Не использует лок_Q.
 #
-# ИЗМЕНЕНИЯ:
-# - Пункт "Громкость" встроен прямо в окно "Настройки" и открывает
-#   родную Scene_VolConfig из HZM_VXA::AudioVol.
-# - Отдельные пункты "Звук" / "Громкость" (HZM AudioVol) в меню
-#   и на титуле удалены, чтобы не было двух разделов.
-# - Убран пункт полноэкранного режима.
-# - Исправлена ошибка "wrong number of parameters: expected 3, got 4"
-#   (неверная сигнатура WritePrivateProfileStringA — было 3 параметра,
-#   должно быть 4).
+# ИЗМЕНЕНИЯ (эта версия):
+#
+# В RPG Maker VX Ace физические клавиши W/A/S/D изначально ЗАШИТЫ в
+# движок как ВТОРАЯ, отдельная привязка:
+#   W -> кнопка R (след. страница / PageDown)
+#   A -> кнопка X
+#   S -> кнопка Y
+#   D -> кнопка Z
+#   (Q -> кнопка L, но Q не используется в WASD-схеме и не трогается)
+#
+# Раньше скрипт перехватывал только UP/DOWN/LEFT/RIGHT, поэтому W всё
+# равно продолжал параллельно листать страницы (через R), а A/S/D —
+# дёргать X/Y/Z. Из-за двух конкурирующих источников ввода поведение
+# в окне сохранений (15 слотов) было нестабильным.
+#
+# Теперь скрипт полностью перехватывает ОБЕ группы кнопок сразу —
+# UP/DOWN/LEFT/RIGHT и R/X/Y/Z — и делает настоящий обмен местами:
+#
+#   WASD ВЫКЛ (обычный режим):
+#     Стрелки  -> движение (UP/DOWN/LEFT/RIGHT)
+#     W/A/S/D  -> R/X/Y/Z (как в ванильном движке)
+#
+#   WASD ВКЛ (переключено):
+#     W/A/S/D  -> движение (UP/DOWN/LEFT/RIGHT)
+#     Стрелки  -> R/X/Y/Z (функции W/A/S/D переходят на стрелки)
+#
+# Физическая клавиша PageDown отдельно всегда работает как R (не
+# зависит от переключателя) — это не мешает обмену, а Q всегда
+# работает как L, как и было.
 #==============================================================================
 
 
@@ -165,23 +185,56 @@ end
 
 
 #==============================================================================
-# ■ WASD Input
+# ■ WASD / Arrows Full Swap
 #------------------------------------------------------------------------------
-# Только WASD.
-#
-# Никаких Q/C.
-# Никаких remap X/L/R/Y/Z.
-# Никаких специальных Scene_Item.
+# Полный обмен местами двух групп клавиш (см. пояснение вверху файла).
+# Перехватываются: UP, DOWN, LEFT, RIGHT, R, X, Y, Z.
+# Не трогаются: L (Q / PageUp), A (Shift), B, C и всё остальное.
 #==============================================================================
 
 module Settings_WASD_Input
 
-  VK = {
-    :UP    => 0x57, # W
-    :LEFT  => 0x41, # A
-    :DOWN  => 0x53, # S
-    :RIGHT => 0x44  # D
+  # Виртуальные коды клавиш
+  VK_UP        = 0x26
+  VK_DOWN      = 0x28
+  VK_LEFT      = 0x25
+  VK_RIGHT     = 0x27
+  VK_PAGE_DOWN = 0x22
+  VK_W         = 0x57
+  VK_A         = 0x41
+  VK_S         = 0x53
+  VK_D         = 0x44
+
+  # Обычный режим (WASD выключен):
+  #   стрелки -> движение, W/A/S/D -> R/X/Y/Z (как в ванильном движке)
+  NORMAL_VK = {
+    :UP    => [VK_UP],
+    :DOWN  => [VK_DOWN],
+    :LEFT  => [VK_LEFT],
+    :RIGHT => [VK_RIGHT],
+    :R     => [VK_W, VK_PAGE_DOWN],
+    :X     => [VK_A],
+    :Y     => [VK_S],
+    :Z     => [VK_D],
   }
+
+  # Режим WASD (переключено):
+  #   W/A/S/D -> движение, стрелки -> R/X/Y/Z (обмен местами)
+  SWAPPED_VK = {
+    :UP    => [VK_W],
+    :DOWN  => [VK_S],
+    :LEFT  => [VK_A],
+    :RIGHT => [VK_D],
+    :R     => [VK_UP, VK_PAGE_DOWN],
+    :X     => [VK_LEFT],
+    :Y     => [VK_DOWN],
+    :Z     => [VK_RIGHT],
+  }
+
+  # Задержка перед авто-повтором и интервал повтора (в кадрах),
+  # такие же, как у родных стрелок.
+  REPEAT_DELAY    = 23
+  REPEAT_INTERVAL = 6
 
   GetAsyncKeyState = Win32API.new(
     "user32", "GetAsyncKeyState",
@@ -190,152 +243,125 @@ module Settings_WASD_Input
 
   class << Input
 
-    alias settings_wasd_original_update update
-    alias settings_wasd_original_press press?
-    alias settings_wasd_original_trigger trigger?
-    alias settings_wasd_original_repeat repeat?
-    alias settings_wasd_original_dir4 dir4
-    alias settings_wasd_original_dir8 dir8
+    alias settings_dir_original_press?   press?
+    alias settings_dir_original_trigger? trigger?
+    alias settings_dir_original_repeat?  repeat?
+    alias settings_dir_original_update   update
+    alias settings_dir_original_dir4     dir4
+    alias settings_dir_original_dir8     dir8
 
 
     #--------------------------------------------------------------------------
-    # ■ update
+    # ■ Активная таблица клавиш
+    #--------------------------------------------------------------------------
+
+    def settings_active_vk_table
+      Settings_Config.wasd? ? Settings_WASD_Input::SWAPPED_VK : Settings_WASD_Input::NORMAL_VK
+    end
+
+
+    #--------------------------------------------------------------------------
+    # ■ Обновление счётчиков удержания (раз в кадр)
     #--------------------------------------------------------------------------
 
     def update
-      settings_wasd_original_update
+      settings_dir_original_update
 
-      @settings_wasd_counter ||= Hash.new(0)
+      @settings_but_counter ||= Hash.new(0)
+      table = settings_active_vk_table
 
-      Settings_WASD_Input::VK.each do |key, vk|
-        if Settings_Config.wasd?
-          if Settings_WASD_Input::GetAsyncKeyState.call(vk) & 0x8000 != 0
-            @settings_wasd_counter[key] += 1
-          else
-            @settings_wasd_counter[key] = 0
-          end
+      table.each_key do |btn|
+        vk_list = table[btn]
+        down = vk_list.any? { |vk| Settings_WASD_Input::GetAsyncKeyState.call(vk) & 0x8000 != 0 }
+
+        if down
+          @settings_but_counter[btn] += 1
         else
-          @settings_wasd_counter[key] = 0
+          @settings_but_counter[btn] = 0
         end
       end
     end
 
 
     #--------------------------------------------------------------------------
-    # ■ Physical state
+    # ■ Физическое состояние / trigger / repeat по логической кнопке
     #--------------------------------------------------------------------------
 
-    def settings_wasd_press?(key)
-      return false unless Settings_Config.wasd?
-
-      @settings_wasd_counter ||= Hash.new(0)
-
-      @settings_wasd_counter[key].to_i > 0
+    def settings_but_down?(btn)
+      (@settings_but_counter ||= Hash.new(0))[btn].to_i > 0
     end
 
-    def settings_wasd_trigger?(key)
-      return false unless Settings_Config.wasd?
-
-      @settings_wasd_counter ||= Hash.new(0)
-
-      @settings_wasd_counter[key].to_i == 1
+    def settings_but_trigger?(btn)
+      (@settings_but_counter ||= Hash.new(0))[btn].to_i == 1
     end
 
-    def settings_wasd_repeat?(key)
-      return false unless Settings_Config.wasd?
-
-      @settings_wasd_counter ||= Hash.new(0)
-
-      count = @settings_wasd_counter[key].to_i
-
-      count == 1 || (count >= 20 && count % 6 == 0)
+    def settings_but_repeat?(btn)
+      count = (@settings_but_counter ||= Hash.new(0))[btn].to_i
+      delay    = Settings_WASD_Input::REPEAT_DELAY
+      interval = Settings_WASD_Input::REPEAT_INTERVAL
+      count == 1 || (count >= delay && (count - delay) % interval == 0)
     end
 
 
     #--------------------------------------------------------------------------
-    # ■ press?
+    # ■ Определение логической кнопки по константе Input::*
+    #--------------------------------------------------------------------------
+
+    def settings_button_for(key)
+      case key
+      when Input::UP    then :UP
+      when Input::DOWN  then :DOWN
+      when Input::LEFT  then :LEFT
+      when Input::RIGHT then :RIGHT
+      when Input::R     then :R
+      when Input::X     then :X
+      when Input::Y     then :Y
+      when Input::Z     then :Z
+      else nil
+      end
+    end
+
+
+    #--------------------------------------------------------------------------
+    # ■ press? / trigger? / repeat?
     #--------------------------------------------------------------------------
 
     def press?(key)
-      case key
-      when Input::UP
-        return true if settings_wasd_press?(:UP)
-      when Input::DOWN
-        return true if settings_wasd_press?(:DOWN)
-      when Input::LEFT
-        return true if settings_wasd_press?(:LEFT)
-      when Input::RIGHT
-        return true if settings_wasd_press?(:RIGHT)
-      end
-
-      settings_wasd_original_press(key)
+      btn = settings_button_for(key)
+      return settings_but_down?(btn) if btn
+      settings_dir_original_press?(key)
     end
-
-
-    #--------------------------------------------------------------------------
-    # ■ trigger?
-    #--------------------------------------------------------------------------
 
     def trigger?(key)
-      case key
-      when Input::UP
-        return true if settings_wasd_trigger?(:UP)
-      when Input::DOWN
-        return true if settings_wasd_trigger?(:DOWN)
-      when Input::LEFT
-        return true if settings_wasd_trigger?(:LEFT)
-      when Input::RIGHT
-        return true if settings_wasd_trigger?(:RIGHT)
-      end
-
-      settings_wasd_original_trigger(key)
+      btn = settings_button_for(key)
+      return settings_but_trigger?(btn) if btn
+      settings_dir_original_trigger?(key)
     end
-
-
-    #--------------------------------------------------------------------------
-    # ■ repeat?
-    #--------------------------------------------------------------------------
 
     def repeat?(key)
-      case key
-      when Input::UP
-        return true if settings_wasd_repeat?(:UP)
-      when Input::DOWN
-        return true if settings_wasd_repeat?(:DOWN)
-      when Input::LEFT
-        return true if settings_wasd_repeat?(:LEFT)
-      when Input::RIGHT
-        return true if settings_wasd_repeat?(:RIGHT)
-      end
-
-      settings_wasd_original_repeat(key)
+      btn = settings_button_for(key)
+      return settings_but_repeat?(btn) if btn
+      settings_dir_original_repeat?(key)
     end
 
 
     #--------------------------------------------------------------------------
-    # ■ dir4
+    # ■ dir4 / dir8
     #--------------------------------------------------------------------------
 
     def dir4
-      return 8 if settings_wasd_press?(:UP)
-      return 2 if settings_wasd_press?(:DOWN)
-      return 4 if settings_wasd_press?(:LEFT)
-      return 6 if settings_wasd_press?(:RIGHT)
-
-      settings_wasd_original_dir4
+      return 8 if settings_but_down?(:UP)
+      return 2 if settings_but_down?(:DOWN)
+      return 4 if settings_but_down?(:LEFT)
+      return 6 if settings_but_down?(:RIGHT)
+      0
     end
 
-
-    #--------------------------------------------------------------------------
-    # ■ dir8
-    #--------------------------------------------------------------------------
-
     def dir8
-
-      up    = settings_wasd_press?(:UP)
-      down  = settings_wasd_press?(:DOWN)
-      left  = settings_wasd_press?(:LEFT)
-      right = settings_wasd_press?(:RIGHT)
+      up    = settings_but_down?(:UP)
+      down  = settings_but_down?(:DOWN)
+      left  = settings_but_down?(:LEFT)
+      right = settings_but_down?(:RIGHT)
 
       if up && left
         return 7
@@ -355,7 +381,7 @@ module Settings_WASD_Input
         return 6
       end
 
-      settings_wasd_original_dir8
+      0
     end
 
   end
@@ -661,34 +687,54 @@ end
 #==============================================================================
 # ■ Window_MenuCommand
 #------------------------------------------------------------------------------
-# Добавляем пункт Настройки.
+# Добавляем пункт Настройки после "Сортировка".
 #
 # Старый отдельный пункт HZM AudioVol (Звук) удаляем —
 # громкость теперь внутри Настроек.
+#
+# Важно: :settings добавляется в add_original_commands, потому что
+# этот метод вызывается ПОСЛЕ make_command_list. Если добавить в
+# make_command_list — команда окажется в конце.
 #==============================================================================
 
 class Window_MenuCommand
 
-  alias settings_original_make_command_list make_command_list
+  alias settings_original_add_original_commands add_original_commands
 
-  def make_command_list
+  def add_original_commands
 
-    settings_original_make_command_list
+    settings_original_add_original_commands
 
     # Убираем старый пункт HZM AudioVol.
     @list.delete_if do |command|
       command[:symbol] == :hzm_vxa_audioVol
     end
 
-    # Не добавляем второй Settings, если он уже был.
-    unless @list.any? { |command| command[:symbol] == :settings }
+    # Убираем возможный дубликат :settings, если его кто-то добавил.
+    @list.delete_if do |command|
+      command[:symbol] == :settings
+    end
 
-      add_command(
-        "Настройки",
-        :settings,
-        true
-      )
+    command = {
+      :name    => "Настройки",
+      :symbol  => :settings,
+      :enabled => true,
+      :ext     => nil
+    }
 
+    # Ищем "Сортировка" (:sort) и вставляем сразу после неё.
+    sort_index = @list.index { |c| c[:symbol] == :sort }
+
+    if sort_index
+      @list.insert(sort_index + 1, command)
+    else
+      # Если сортировки нет — перед "Сохранить" (:save).
+      save_index = @list.index { |c| c[:symbol] == :save }
+      if save_index
+        @list.insert(save_index, command)
+      else
+        @list << command
+      end
     end
 
   end

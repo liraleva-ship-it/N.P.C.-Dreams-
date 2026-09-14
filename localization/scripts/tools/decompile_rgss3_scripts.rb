@@ -13,7 +13,8 @@ scripts.each_with_index do |entry, index|
   basename = parts.pop || ""
   path = File.join(output, *parts, "#{index} - #{basename}.rb")
   FileUtils.mkdir_p(File.dirname(path))
-  File.binwrite(path, Zlib::Inflate.inflate(entry[2]))
+  source = Zlib::Inflate.inflate(entry[2]).gsub(/\r\n?/, "\n")
+  File.binwrite(path, source)
 end
 
 puts "Extracted #{scripts.length} script sections to #{output}"
